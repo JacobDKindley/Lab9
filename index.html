@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "f885515297e4408ab0fe1297e65c28c4"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,6 +75,101 @@
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
     // TODO - Make buttons functional
+
+    const label = 'Log Group';
+    //Console Log Demo Button
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Log');
+    });
+
+    //Console Error Demo Button
+    errorBtns[1].addEventListener('click', () => {
+      console.error("Whoopsie")
+    });
+
+    //Console Dir Button
+    errorBtns[2].addEventListener('click', () => {
+      console.dir(errorBtns[2]);
+    });
+
+    //Console dirxml Button
+    errorBtns[3].addEventListener('click', () => {
+      console.dirxml(document.body);
+    });
+
+    //Console Group Start Button
+    errorBtns[4].addEventListener('click', () => {
+      console.group(label);
+    });
+
+    //Console Group End Button
+    errorBtns[5].addEventListener('click', () => {
+      console.groupEnd(label)
+    });
+
+    //Console Table Button
+    errorBtns[6].addEventListener('click', () => {
+      console.table([
+        {
+          'Class Name': 'Software Engineering',
+          'Class Number' : 100
+        },
+        {
+          'Class Name': 'Programming Languages',
+          'Class Number' : 130
+        },
+        {
+          'Class Name': 'Advanced Software Engineering',
+          'Class Number' : 112
+        }
+      ]);
+    });
+
+    //Start Timer Button
+    errorBtns[7].addEventListener('click', () => {
+      console.log('Time Started!');
+      console.time();      
+    });
+
+    //End Timer Button
+    errorBtns[8].addEventListener('click', () => {
+      console.timeEnd();
+      console.log('Time Ended!');
+    });
+
+    //Console Trace Button
+    errorBtns[9].addEventListener('click', () => {
+      const deep = () => { deeper(); };
+      const deeper = () => { deepest(); };
+      const deepest = () => { console.trace(); };
+      const traceTest = () => { deep(); };
+      traceTest();
+    });
+
+    //Trigger a Global Error Button
+    errorBtns[10].addEventListener('click', () => {
+      out=""
+      try {
+        out=test(errorBtns[11]);
+      } catch (err) {
+        out=err.message;
+      } finally {
+        console.log(out + ' is after '+errorBtns[10].textContent);
+      }
+    });
+
+    class ButtonExistenceError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "ButtonExistenceError";
+      }
+    }
+
+    function test(button) {
+      if(button) return button.textContent;
+      throw new ButtonExistenceError("No Button");
+    }
+
   </script>
 </body>
 </html>
